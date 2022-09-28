@@ -26,3 +26,7 @@ export const signInAnonymously = async () => {
 export const signOut = async () => {
   auth().signOut()
 };
+
+export const onAuthStateChangedListener = (callback) => {
+  return auth().onAuthStateChanged(callback)
+}

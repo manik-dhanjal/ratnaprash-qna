@@ -32,8 +32,8 @@ var age_props = [
   ];
 const LoginScreen = ({navigation, route}) => {
 
-    const [user,setUser] = useState(REQUEST_SUCCESS( INITIAL_USER_INPUT ));
-    const { setTempUser } = useContext(UserContext);
+    const [user,setUser] = useState(REQUEST_SUCCESS( testingCreds ));
+    const { login } = useContext(UserContext);
     const setMessage = (message) => {
         setUser(state => {
             state.message = message;
@@ -59,47 +59,8 @@ const LoginScreen = ({navigation, route}) => {
             return
         }
         setMessage("");
-        setUser(state => REQUEST_PENDING(state.data))
         try{
-            await setTempUser(user.data);
-            const userAuth = await signInAnonymously();
-            await setUser(state => REQUEST_SUCCESS(state.data))
-        }catch(e){
-            if(e.code === 'auth/too-many-requests'){
-                setUser(state => REQUEST_FAILED(state.data,"Your device is blocked due to too many requests! Please try again later"))
-            }else{
-                console.log(e.message)
-                setUser(state => REQUEST_FAILED(state.data,e.message.replace("["+e.code+"] ","")))
-            }
-        }
-    }
-    const handleFormSubmit = async () => {
-        if(user.status===PENDING) return;
-
-        if(!user.data.name){
-            setMessage("Please enter your name")
-            return
-        }if(!user.data.age){
-            setMessage("Please select your age")
-            return
-        }
-        if(!user.data.phone || user.data.phone<100000){
-            setMessage("Please enter a valid phone number")
-            return
-        }
-
-        setMessage("");
-        setUser(state => REQUEST_PENDING(state.data))
-        try{
-            const confirmation = await signInWithPhoneNumber("+91"+user.data.phone);
-
-            if(!confirmation._auth._authResult) throw new Error("Unable to send code")
-            await setTempUser(user.data);
-            await setUser(state => REQUEST_SUCCESS(state.data))
-            navigation.navigate( AUTH_TYPE.otpScreen ,{
-                user:user.data,
-                confirmation: confirmation
-            });
+            await login(user.data)
         }catch(e){
             if(e.code === 'auth/too-many-requests'){
                 setUser(state => REQUEST_FAILED(state.data,"Your device is blocked due to too many requests! Please try again later"))
@@ -207,8 +168,6 @@ const styles = StyleSheet.create({
     },
     avoidContainer:{
         flex:1,
-        // backgroundColor:"#ff0"
-        // justifyContent:'stretch',
     },
     container:{
         paddingLeft:15,
@@ -216,8 +175,6 @@ const styles = StyleSheet.create({
         paddingTop:30,
         paddingBottom:30,
         flex:1,
-        // backgroundColor:"#ff0",
-        // justifyContent:'center',
         alignItems:'center'
     },
     scroll:{
@@ -227,7 +184,6 @@ const styles = StyleSheet.create({
     whiteCont:{
         maxWidth:450,
         width:'100%',
-        // paddingBottom:30
     },  
     heading:{
         fontSize:26,
@@ -247,7 +203,5 @@ const styles = StyleSheet.create({
         marginTop:10,
         textAlign:'center',
         fontWeight:"600"
-        // position:'absolute',
-        // bottom:20
     },
 })

@@ -9,7 +9,7 @@ const SpinnerWrapper = ({children,isActive}) => {
     <View style={styles.container}>
       {children}
       <View style={styles.overlay}>
-        <ActivityIndicator size={"large"} color={COLORS.primary}/>
+        <ActivityIndicator size={"large"} color={COLORS.orange}/>
       </View>
 
     </View>

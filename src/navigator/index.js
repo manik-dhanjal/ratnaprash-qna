@@ -12,6 +12,7 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <SpinnerWrapper isActive={currentUser.status === PENDING}>
+      {/* <AppStackNavigator/> */}
         {currentUser.data ? <AppStackNavigator/>:<AuthStackNavigator/>}
       </SpinnerWrapper>
     </NavigationContainer>

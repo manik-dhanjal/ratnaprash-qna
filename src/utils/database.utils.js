@@ -1,30 +1,59 @@
 import firestore from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/firestore';
 
-const appIdInFirestore = "ratnaprash"
+const appIdInFirestore = "Ratnaprash"
+
+// Get Questions by currentQuizId
+export const getQuizQuestions = async() => {
+  const questionsSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('QuizQuestions').get();
+  let tempQuestions = [];
+  for(var i=0; i < questionsSnapshot.docs.length; i++){
+    const question = await questionsSnapshot.docs[i].data()
+    tempQuestions.push({id:questionsSnapshot.docs[i].id,...question});
+  }
+  // console.log(tempQuestions)
+  return tempQuestions;
+};
+
+export const getRewards = async () => {
+  const rewardSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('Rewards').get();
+
+  let tempRewards = [];
+  for(var i=0; i < rewardSnapshot.docs.length; i++){
+    const reward = await rewardSnapshot.docs[i].data();
+    tempRewards.push({...reward});
+  }
+  return tempRewards;
+}
 
 export const createUserDocument = async (userAuth, user={}) => {
-  const userDocRef = firestore().collection('Users').doc(userAuth.uid);
-  const userSnapshot = await userDocRef.get();
+  const userDocRefById = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userAuth.uid);
+  const userSnapshot = await userDocRefById.get();
   if(!userSnapshot.exists){
-    const {phoneNumber} = userAuth;
     const createdAt = new Date();
     const newUserDoc = {
       phoneNumber:user.phone,
       createdAt,
       name:user.name,
-      uid:userAuth.uid,
+      id:userAuth.uid,
       age: user.age,
       location: user.location
     }
-    const result = await userDocRef.set(newUserDoc)
-    return newUserDoc;
+    const usersRef = firestore().collection('apps').doc(appIdInFirestore).collection('Users');
+    const userSnapshotsByPhone = await usersRef.where('phoneNumber','==',user.phone).get();
+
+    if(userSnapshotsByPhone.length>0){
+      return userSnapshotsByPhone[0].data();
+    }else{
+      const result = await userDocRefById.set(newUserDoc)
+      return newUserDoc;
+    }
   }
   return userSnapshot.data()
 }
 
-export const getUserDocument = async (userId) => {
-  const userDocRef = firestore().collection('Users').doc(userId);
+export const getUserDocumentById = async (userId) => {
+  const userDocRef = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userId);
   const userSnapshot = await userDocRef.get();
   if(userSnapshot.exists)
     return userSnapshot.data()
@@ -33,16 +62,16 @@ export const getUserDocument = async (userId) => {
 }
 
 export const setQuizResponse = async (questions,userId) => {
-  
-  const userRef = firestore().collection('Users').doc(userId);
-  const responseCollectionRef = firestore().collection('apps').doc(appIdInFirestore).collection('Responses');
+  console.log(userId);
+  const userRef = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userId);
+  const responseCollectionRef = firestore().collection('apps').doc(appIdInFirestore).collection('QuizResponses');
 
   const createdAt = new Date();
   const formatedQuestionsArr = questions.map((question) => {
-    const questionRef = firestore().collection('apps').doc(appIdInFirestore).collection('Questions').doc(question.id);
+    const questionRef = firestore().collection('apps').doc(appIdInFirestore).collection('QuizQuestions').doc(question.id);
     return {
       questionRef,
-      selectedAnswer: question.selectedAnswer
+      selected_answers: question.selected_answers
     }
   })
   const responseDoc = await responseCollectionRef.add({
@@ -52,7 +81,7 @@ export const setQuizResponse = async (questions,userId) => {
   })
 
   await userRef.update({
-      odomosResponseRef: firebase.firestore.FieldValue.arrayUnion(responseCollectionRef.doc(responseDoc.id)),
+      QuizResponseRef: firebase.firestore.FieldValue.arrayUnion(responseCollectionRef.doc(responseDoc.id)),
   })
   return responseDoc.id;
 }
