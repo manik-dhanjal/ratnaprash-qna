@@ -15,6 +15,16 @@ export const getQuizQuestions = async() => {
   return tempQuestions;
 };
 
+export const getFeedbackQuestions = async() => {
+  const questionsSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('feedbackQuestions').get();
+  let tempQuestions = [];
+  for(var i=0; i < questionsSnapshot.docs.length; i++){
+    const question = await questionsSnapshot.docs[i].data()
+    tempQuestions.push({id:questionsSnapshot.docs[i].id,...question});
+  }
+  return tempQuestions;
+};
+
 export const getRewards = async () => {
   const rewardSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('Rewards').get();
 
@@ -62,7 +72,6 @@ export const getUserDocumentById = async (userId) => {
 }
 
 export const setQuizResponse = async (questions,userId) => {
-  console.log(userId);
   const userRef = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userId);
   const responseCollectionRef = firestore().collection('apps').doc(appIdInFirestore).collection('QuizResponses');
 
@@ -86,3 +95,26 @@ export const setQuizResponse = async (questions,userId) => {
   return responseDoc.id;
 }
 
+export const setFeedbackResponse = async (questions, userId) => {
+  const userRef = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userId);
+  const responseCollectionRef = firestore().collection('apps').doc(appIdInFirestore).collection('feedbackResponses');
+
+  const createdAt = new Date();
+  const formatedQuestionsArr = questions.map((question) => {
+    const questionRef = firestore().collection('apps').doc(appIdInFirestore).collection('feedbackQuestions').doc(question.id);
+    return {
+      questionRef,
+      response: question.type =='option'? question.selected_answers : question.typed_answer
+    }
+  })
+  const responseDoc = await responseCollectionRef.add({
+    userRef:userRef,
+    createdAt,
+    questions: formatedQuestionsArr
+  })
+
+  await userRef.update({
+      feedbackResponseRef: firebase.firestore.FieldValue.arrayUnion(responseCollectionRef.doc(responseDoc.id)),
+  })
+  return responseDoc.id;
+}

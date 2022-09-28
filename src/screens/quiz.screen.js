@@ -6,14 +6,15 @@ import {
   ImageBackground,
   StyleSheet,
 } from 'react-native';
+import {useHeaderHeight} from '@react-navigation/elements'
 import SpinnerWrapper from '../components/spinner.component';
 import Button from '../components/button.components';
-import Question from '../components/question.component';
+import MCQ from '../components/mcq.component';
 
 import {getQuizQuestions, setQuizResponse} from '../utils/database.utils';
 import { UserContext } from '../context/user.context';
 
-import bg from "../assets/images/red-bg.png";
+import bg from "../assets/images/bg.png";
 import {COLORS} from '../constants/theme.constants';
 import { APP_TYPE } from '../constants/navigate.constants';
 import { PENDING,FAILED, REQUEST_FAILED, REQUEST_PENDING, REQUEST_SUCCESS } from '../constants/request.constants';
@@ -23,7 +24,7 @@ import RP_Utils from '../utils';
 const QuizScreen = ({navigation, route}) => {
     const {currentUser} = useContext(UserContext);
     const [quiz, setQuiz] = useState(REQUEST_PENDING([]));
-
+    const headerHeight = useHeaderHeight();
     const getQuestionDetails = async () => {
         try{
             setQuiz(REQUEST_PENDING([]));
@@ -55,7 +56,8 @@ const QuizScreen = ({navigation, route}) => {
         try{
             setQuiz(state => REQUEST_PENDING(state.data))
             await setQuizResponse(quiz.data,currentUser.data.id);
-            setQuiz(state => REQUEST_SUCCESS(state.data))
+            setQuiz(state => REQUEST_SUCCESS(state.data));
+            navigation.navigate(APP_TYPE.artworkScreen);
         }
         catch(e){
             setQuiz(state => REQUEST_FAILED(state.data,"Internal Error! Unable to submit your response, Please try again"))
@@ -104,7 +106,7 @@ const QuizScreen = ({navigation, route}) => {
                     <FlatList
                         data={quiz.data}
                         renderItem={({ item, index }) => (
-                          <Question
+                          <MCQ
                             {
                               ...item
                             }
@@ -125,7 +127,7 @@ const QuizScreen = ({navigation, route}) => {
                           />
                         }
                         ListFooterComponentStyle={styles.listFooter}
-                        style={styles.questionList}
+                        style={[styles.questionList]}
                       />
                 </ImageBackground>
             </SafeAreaView>
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
       resizeMode:'cover',
     },
     questionList:{
-      paddingTop:20
+      paddingTop:20,
     },
     listFooter:{
       flexDirection:'row',

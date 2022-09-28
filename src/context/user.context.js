@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
      try{
         if(!state.data) throw new Error("No one is Signed In")
         setState( REQUEST_PENDING(state.data) )
-        signOut()
+        await signOut()
         setState(REQUEST_SUCCESS(null));
      }catch(e){
         setState( REQUEST_FAILED(state.data,e.message) )
@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
             const newUserDoc =  await getUserDocumentById(userAuth.uid)
             setState( REQUEST_SUCCESS(newUserDoc) )
          }else{
-            setState(REQUEST_SUCCESS(user));
+            setState(REQUEST_SUCCESS(null));
          }
       }
       catch(e){

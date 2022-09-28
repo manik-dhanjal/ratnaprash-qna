@@ -5,11 +5,10 @@ import {
     StyleSheet,
   } from 'react-native';
 import React from 'react'
-import RP_Utils from '../utils';
 import { COLORS } from '../constants/theme.constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const Question = ({
+const MCQ = ({
     idx = null,
     question,
     correct_answers, 
@@ -18,18 +17,6 @@ const Question = ({
     message=null,
     handleOptionSelect
 }) => {
-    // console.log("opt",correct_answers,wrong_answers)
-    const getOptionBgColor = (currentOption) => {
-        if (selected_answers.includes(currentOption)) {
-            if (correct_answers.includes(currentOption)) {
-                return COLORS.success;
-            } else {
-                return COLORS.error;
-            }
-        } else {
-            return COLORS.white+"00";
-        }
-    };
 
     const getOptionTextColor = (currentOption) => {
         if (selected_answers.length) {
@@ -96,7 +83,7 @@ const Question = ({
   )
 }
 
-export default Question
+export default MCQ
 
 const styles = StyleSheet.create({
     questionContainer:{

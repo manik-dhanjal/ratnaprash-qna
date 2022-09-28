@@ -4,7 +4,7 @@ import WelcomeScreen from '../screens/welcome.screen';
 import LoginScreen from '../screens/login.screen';
 // import OTPVerifyScreen from '../screens/otp_verify.screen';
 import {AUTH_TYPE} from "../constants/navigate.constants"
-
+import LogoHeader from '../components/logo_header.components';
 
 export const Stack = createNativeStackNavigator();
 const AuthStackNavigator = () =>{
@@ -16,6 +16,9 @@ const AuthStackNavigator = () =>{
           component={LoginScreen} 
           initialParams = {{
             message:null
+          }}
+          options={{
+            header:() => <LogoHeader/>
           }}
         />
       </Stack.Navigator>

@@ -6,6 +6,7 @@ export const AUTH_TYPE = {
 
 export const APP_TYPE = {
     quizScreen: "quiz screen",
-    gratificationScreen: "gratification Screen",
+    artworkScreen: "artwork screen",
+    feedbackScreen: "feedback screen",
     thankYouScreen: "Thank You Screen",
 }
