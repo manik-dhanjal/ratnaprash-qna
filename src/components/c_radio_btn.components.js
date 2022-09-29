@@ -40,7 +40,7 @@ const C_RadioInput = ({radio_props,label="",name,onChange,containerStyles,value}
                         borderWidth={2}
                         buttonInnerColor={'#fff'}
                         buttonOuterColor={'#fff'}
-                        buttonSize={18}
+                        buttonSize={14}
                         buttonOuterSize={22}
                         buttonStyle={styles.buttonStyle}
                     // buttonWrapStyle={{marginLeft: 5}}

@@ -1,4 +1,4 @@
-import { ImageBackground, View,Text,Image,StyleSheet, Pressable, ScrollView } from 'react-native'
+import { ImageBackground, Image,StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import bg from "../assets/images/red-bg.png";
 import bannerLogo from "../assets/images/ratanprash-logo.png"
@@ -17,11 +17,13 @@ const styles = StyleSheet.create({
     },
     bannerLogoImg:{
         width:"100%",
-        maxHeight:"60%",
+        height:"60%",
         resizeMode:'contain',
+        maxHeight:400,
+        maxWidth:400
     },
     welcomeBtn:{
-        width:280,
+        width:220,
     },
     welcomeBtnImg:{
         width:"100%",

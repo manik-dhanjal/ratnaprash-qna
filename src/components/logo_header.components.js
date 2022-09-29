@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import dabarLogo from '../assets/images/dabar-logo.png';
 import ratnaprashLogo from "../assets/images/ratanprash-logo.png"

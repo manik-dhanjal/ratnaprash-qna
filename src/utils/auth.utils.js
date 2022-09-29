@@ -17,7 +17,6 @@ export const confirmCodeSentOnPhoneNumber = async(confirmation,code) => {
       const credential = auth.PhoneAuthProvider.credential(confirmation.verificationId, code);
       let userData = await auth().currentUser.linkWithCredential(credential);
       return userData
-    //  error code: auth/invalid-verification-code
   }
 
 export const signInAnonymously = async () => {

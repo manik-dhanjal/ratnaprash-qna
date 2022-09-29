@@ -6,7 +6,6 @@ import {
   ImageBackground,
   StyleSheet,
 } from 'react-native';
-import {useHeaderHeight} from '@react-navigation/elements'
 import SpinnerWrapper from '../components/spinner.component';
 import Button from '../components/button.components';
 import MCQ from '../components/mcq.component';
@@ -24,7 +23,6 @@ import RP_Utils from '../utils';
 const QuizScreen = ({navigation, route}) => {
     const {currentUser} = useContext(UserContext);
     const [quiz, setQuiz] = useState(REQUEST_PENDING([]));
-    const headerHeight = useHeaderHeight();
     const getQuestionDetails = async () => {
         try{
             setQuiz(REQUEST_PENDING([]));

@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from 'react';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED } from '../constants/request.constants';
 import { onAuthStateChangedListener, signInAnonymously, signOut } from '../utils/auth.utils';
 import { createUserDocument, getUserDocumentById } from '../utils/database.utils';
-import { ToastAndroid } from 'react-native';
 
 const initialState = REQUEST_SUCCESS(null);
 

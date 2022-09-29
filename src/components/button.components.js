@@ -1,4 +1,4 @@
-import { Text, Pressable, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 import DropShadow from 'react-native-drop-shadow';
 import React from 'react'
 import { COLORS } from '../constants/theme.constants';

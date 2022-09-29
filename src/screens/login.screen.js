@@ -1,15 +1,11 @@
 import { Text,View, ImageBackground, StyleSheet, Keyboard,KeyboardAvoidingView,TouchableWithoutFeedback,Platform, ScrollView } from 'react-native'
 import React,{useState, useEffect, useContext} from 'react'
 import bg from "../assets/images/bg.png";
-// import LoginForm from '../components/login_form.components';
-import Container from '../components/container.components';
 import Button from '../components/button.components'
 import C_TextInput from '../components/c_text_input.component'
 import C_RadioInput from '../components/c_radio_btn.components'
-import { PENDING, REQUEST_PENDING, REQUEST_SUCCESS, SUCCESS,REQUEST_FAILED } from '../constants/request.constants';
-import { signInAnonymously, signInWithPhoneNumber } from '../utils/auth.utils';
+import { PENDING, REQUEST_SUCCESS,REQUEST_FAILED } from '../constants/request.constants';
 import { UserContext, UserProvider } from '../context/user.context';
-import { AUTH_TYPE } from '../constants/navigate.constants';
 import { COLORS } from '../constants/theme.constants';
 
 const INITIAL_USER_INPUT = {
@@ -32,7 +28,7 @@ var age_props = [
   ];
 const LoginScreen = ({navigation, route}) => {
 
-    const [user,setUser] = useState(REQUEST_SUCCESS( testingCreds ));
+    const [user,setUser] = useState(REQUEST_SUCCESS( INITIAL_USER_INPUT ));
     const { login } = useContext(UserContext);
     const setMessage = (message) => {
         setUser(state => {
@@ -93,8 +89,6 @@ const LoginScreen = ({navigation, route}) => {
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View  style={styles.container}>
-                            {/* <Container style={styles.whiteCont}> */}
-
                                 <Text style={styles.heading}>
                                     Please enter your details
                                 </Text>
@@ -140,17 +134,10 @@ const LoginScreen = ({navigation, route}) => {
                                         onPress={handleAnonymousLogin}
                                         isLoading={user.status===PENDING}
                                     />
-                                    {/* <Button
-                                        title="Verify Phone"
-                                        containerStyle={styles.submit}
-                                        onPress={handleFormSubmit}
-                                        isLoading={user.status===PENDING}
-                                    /> */}
                                     {
                                         user.message &&
                                         <Text style={styles.error}>{user.message}</Text>
                                     }
-                            {/* </Container>     */}
                         </View>
                     </TouchableWithoutFeedback>      
                 </KeyboardAvoidingView>

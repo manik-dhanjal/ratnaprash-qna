@@ -3,7 +3,6 @@ import { firebase } from '@react-native-firebase/firestore';
 
 const appIdInFirestore = "Ratnaprash"
 
-// Get Questions by currentQuizId
 export const getQuizQuestions = async() => {
   const questionsSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('QuizQuestions').get();
   let tempQuestions = [];
@@ -11,7 +10,6 @@ export const getQuizQuestions = async() => {
     const question = await questionsSnapshot.docs[i].data()
     tempQuestions.push({id:questionsSnapshot.docs[i].id,...question});
   }
-  // console.log(tempQuestions)
   return tempQuestions;
 };
 
@@ -25,16 +23,6 @@ export const getFeedbackQuestions = async() => {
   return tempQuestions;
 };
 
-export const getRewards = async () => {
-  const rewardSnapshot = await firestore().collection('apps').doc(appIdInFirestore).collection('Rewards').get();
-
-  let tempRewards = [];
-  for(var i=0; i < rewardSnapshot.docs.length; i++){
-    const reward = await rewardSnapshot.docs[i].data();
-    tempRewards.push({...reward});
-  }
-  return tempRewards;
-}
 
 export const createUserDocument = async (userAuth, user={}) => {
   const userDocRefById = firestore().collection('apps').doc(appIdInFirestore).collection('Users').doc(userAuth.uid);

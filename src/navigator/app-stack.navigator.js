@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import { Text,Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { APP_TYPE } from '../constants/navigate.constants';
 import { UserContext } from '../context/user.context';
 import { Button } from 'react-native';
 import LogoHeader from '../components/logo_header.components';
-// import ThankYouScreen from '../screens/thankyou.screen';
-// import GratificationScreen from '../screens/gratification.screens';
+
 import QuizScreen from '../screens/quiz.screen';
 import ArtWorkScreen from '../screens/artwork.screen';
 import FeedbackScreen from '../screens/feedback.screen';

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ImageBackground, FlatList } from 'react-native'
+import { Text, StyleSheet, ImageBackground, FlatList, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import bg from "../assets/images/bg.png"
@@ -104,7 +104,10 @@ const FeedbackScreen = ({navigation}) => {
     }
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+    >
         <ImageBackground source={bg} style={styles.imageBackground}>
             <FlatList
                 data={feedback.data}
@@ -144,14 +147,14 @@ const FeedbackScreen = ({navigation}) => {
                   style={[styles.questionList]}
             />
         </ImageBackground>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 
 export default FeedbackScreen
 
 const styles = StyleSheet.create({
-    safeAreaView:{
+    container:{
         flex:1
       },
       imageBackground:{
