@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     bannerLogoImg:{
-        width:"100%",
+        width:"90%",
         height:"60%",
         resizeMode:'contain',
-        maxHeight:400,
-        maxWidth:400
+        maxHeight:600,
+        maxWidth:600
     },
     welcomeBtn:{
         width:220,

@@ -1,4 +1,4 @@
-import { Text, StyleSheet, ImageBackground, FlatList, Platform, KeyboardAvoidingView } from 'react-native'
+import { Text, StyleSheet, ImageBackground, FlatList, TouchableWithoutFeedback,Keyboard } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import bg from "../assets/images/bg.png"
@@ -104,8 +104,7 @@ const FeedbackScreen = ({navigation}) => {
     }
 
   return (
-    <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}
         style={styles.container}
     >
         <ImageBackground source={bg} style={styles.imageBackground}>
@@ -130,6 +129,10 @@ const FeedbackScreen = ({navigation}) => {
                                 handleChange = {(value) => handleTextChange(value,index) }
                                 idx = {index+1}
                                 value = {item.response}
+                                inputProps={{
+                                    placeholder:"Enter your message here...",
+                                    placeholderTextColor:'#333'
+                                }}
                             />
                         )
                     }
@@ -147,7 +150,7 @@ const FeedbackScreen = ({navigation}) => {
                   style={[styles.questionList]}
             />
         </ImageBackground>
-    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   )
 }
 

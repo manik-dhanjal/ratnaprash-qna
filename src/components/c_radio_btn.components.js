@@ -9,13 +9,15 @@ const styles = StyleSheet.create({
 
     },
     label:{
-        marginBottom:10,
         fontSize:18,
         color:"#fff",
         fontWeight:"600"
     },
     optionWrap:{
         marginRight:10
+    },
+    group:{
+        paddingVertical:10
     }
 })
 const C_RadioInput = ({radio_props,label="",name,onChange,containerStyles,value}) => {
@@ -43,7 +45,6 @@ const C_RadioInput = ({radio_props,label="",name,onChange,containerStyles,value}
                         buttonSize={14}
                         buttonOuterSize={22}
                         buttonStyle={styles.buttonStyle}
-                    // buttonWrapStyle={{marginLeft: 5}}
                     />
                     <RadioButtonLabel
                     obj={obj}

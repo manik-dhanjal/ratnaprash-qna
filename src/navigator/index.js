@@ -11,7 +11,6 @@ import AuthStackNavigator from './auth-stack.navigator';
 
 const Navigator = () => {
   const {currentUser} = useContext(UserContext)
-  console.log(currentUser);
   return (
     <NavigationContainer>
       <SpinnerWrapper isActive={currentUser.status === PENDING}>

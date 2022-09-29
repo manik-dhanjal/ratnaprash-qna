@@ -57,6 +57,7 @@ const LoginScreen = ({navigation, route}) => {
         setMessage("");
         try{
             await login(user.data)
+            setUser(REQUEST_SUCCESS(INITIAL_USER_INPUT))
         }catch(e){
             if(e.code === 'auth/too-many-requests'){
                 setUser(state => REQUEST_FAILED(state.data,"Your device is blocked due to too many requests! Please try again later"))
@@ -155,14 +156,15 @@ const styles = StyleSheet.create({
     },
     avoidContainer:{
         flex:1,
+        alignItems:'center'
     },
     container:{
         paddingLeft:15,
         paddingRight:15,
         paddingTop:30,
         paddingBottom:30,
-        flex:1,
-        alignItems:'center'
+        alignItems:'stretch',
+        maxWidth:400
     },
     scroll:{
         paddingTop:15
@@ -176,18 +178,22 @@ const styles = StyleSheet.create({
         fontSize:26,
         color:COLORS.white,
         fontWeight:'600',
-        marginBottom:20
+        marginBottom:20,
+        textAlign:'center'
     },
     inputGrp:{
-        marginBottom:20
+        marginBottom:20,
+        alignSelf:'stretch',
+        minWidth:'100%'
     },
     submit:{
-        marginTop:20
+        marginTop:20,
+        alignSelf:'center'
     },
     error:{
         fontSize:16,
         color:COLORS.orange,
-        marginTop:10,
+        marginTop:20,
         textAlign:'center',
         fontWeight:"600"
     },

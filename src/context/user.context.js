@@ -3,8 +3,7 @@ import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILED } from '../constants/r
 import { onAuthStateChangedListener, signInAnonymously, signOut } from '../utils/auth.utils';
 import { createUserDocument, getUserDocumentById } from '../utils/database.utils';
 
-const initialState = REQUEST_SUCCESS(null);
-
+const initialState = REQUEST_PENDING(null);
 export const UserContext = createContext(initialState);
 
 export const UserProvider = ({ children }) => {
@@ -28,6 +27,7 @@ export const UserProvider = ({ children }) => {
          const userAuth = await signInAnonymously();
          const newUserDoc =  await createUserDocument(userAuth.user,user)
          setState( REQUEST_SUCCESS(newUserDoc) )
+         console.log("login(): ",newUserDoc);
       }
       catch(e){
          console.log(e)
@@ -37,14 +37,16 @@ export const UserProvider = ({ children }) => {
    }
 
    const onAuthStateChanged = async (userAuth)=> {
-       setState(REQUEST_PENDING(null));
       try{
          if( userAuth != null){
             const newUserDoc =  await getUserDocumentById(userAuth.uid)
-            setState( REQUEST_SUCCESS(newUserDoc) )
+            if(newUserDoc != null){
+               setState( REQUEST_SUCCESS(newUserDoc) )
+            }
          }else{
             setState(REQUEST_SUCCESS(null));
          }
+         
       }
       catch(e){
          console.log(e);

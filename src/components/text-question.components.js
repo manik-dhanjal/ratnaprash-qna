@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView,Platform } from 'react-native'
 import React from 'react'
 import { COLORS } from '../constants/theme.constants'
 
@@ -7,9 +7,13 @@ const TextQuestion = ({
     handleChange,
     value,
     idx = null,
+    inputProps={}
 }) => {
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+        
+    behavior={Platform.OS === "ios" ? "padding" : "padding"}
+    style={styles.container}>
         <View style={styles.question}>
             <Text style={[styles.questionText]}> 
                 { idx!=null && (`Q-${idx}. `) }
@@ -25,9 +29,12 @@ const TextQuestion = ({
                 style={styles.textinput}
                 maxLength={250}
                 cursorColor={COLORS.orange}
+                {
+                    ...inputProps
+                }
             />
         </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -51,6 +58,9 @@ const styles = StyleSheet.create({
         borderRadius:10,
         borderColor:COLORS.border,
         borderWidth:1,
-        padding:10
+        paddingHorizontal:20,
+        paddingVertical:10,
+        color:COLORS.black,
+        textAlignVertical:'top'
     }
 })
