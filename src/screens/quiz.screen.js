@@ -9,6 +9,7 @@ import {
 import SpinnerWrapper from '../components/spinner.component';
 import Button from '../components/button.components';
 import MCQ from '../components/mcq.component';
+import ResultModal from '../components/result_modal.components';
 
 import {getQuizQuestions, setQuizResponse} from '../utils/database.utils';
 import { UserContext } from '../context/user.context';
@@ -23,6 +24,8 @@ import RP_Utils from '../utils';
 const QuizScreen = ({navigation, route}) => {
     const {currentUser} = useContext(UserContext);
     const [quiz, setQuiz] = useState(REQUEST_PENDING([]));
+    const [isResultModalVisible, setIsResultModalVisible] = useState(false);
+
     const getQuestionDetails = async () => {
         try{
             setQuiz(REQUEST_PENDING([]));
@@ -49,13 +52,24 @@ const QuizScreen = ({navigation, route}) => {
       })
       return count;
     }
-
+    const getCorrectQuestionCount = () => {
+      let count =0;
+      quiz.data.forEach(question => {
+        
+        if(
+          question.selected_answers.reduce((res,ans )=>(
+            res && question.correct_answers.includes(ans)
+          ),true)
+        ) count++;
+      })
+      return count;
+    }
     const handleSubmitQuiz = async () => {
         try{
             setQuiz(state => REQUEST_PENDING(state.data))
             await setQuizResponse(quiz.data,currentUser.data.id);
             setQuiz(state => REQUEST_SUCCESS(state.data));
-            navigation.navigate(APP_TYPE.artworkScreen);
+            setIsResultModalVisible(true);
         }
         catch(e){
             setQuiz(state => REQUEST_FAILED(state.data,"Internal Error! Unable to submit your response, Please try again"))
@@ -75,9 +89,14 @@ const QuizScreen = ({navigation, route}) => {
          return { ...state }
       })
    }  
+   const handleQuizTryAgain = () => {
+        getQuestionDetails();
+        setIsResultModalVisible(false)
+    }
 
     useEffect(() => {
         getQuestionDetails();
+        setIsResultModalVisible(false)
     }, []);
 
     if( quiz.status===PENDING ){
@@ -128,6 +147,19 @@ const QuizScreen = ({navigation, route}) => {
                         style={[styles.questionList]}
                       />
                 </ImageBackground>
+                <ResultModal
+                    isModalVisible={isResultModalVisible}
+                    correctCount={getCorrectQuestionCount()}
+                    totalCount={quiz.data.length}
+                    handleOnClose={() => {
+                        setIsResultModalVisible(false);
+                    }}
+                    handleCheckout={() => {
+                        navigation.navigate( APP_TYPE.artworkScreen );
+                        setIsResultModalVisible(false);
+                    }}
+                    handleQuizTryAgain = {handleQuizTryAgain}
+                />
             </SafeAreaView>
     );
 };

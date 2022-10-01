@@ -14,7 +14,7 @@ const ThankyouScreen = () => {
     <SafeAreaView style={styles.safeAreaView}>
       <ImageBackground source={thankYouBg} style={styles.imagebackground}>
         <Button
-            title="Log Out"
+            title="Thank you"
             onPress={handleLogout}
             containerStyle={styles.logoutBtn}
         />

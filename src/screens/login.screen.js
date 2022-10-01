@@ -7,6 +7,7 @@ import C_RadioInput from '../components/c_radio_btn.components'
 import { PENDING, REQUEST_SUCCESS,REQUEST_FAILED } from '../constants/request.constants';
 import { UserContext, UserProvider } from '../context/user.context';
 import { COLORS } from '../constants/theme.constants';
+import DropDown from '../components/c_dropdown.components';
 
 const INITIAL_USER_INPUT = {
     name:"",
@@ -75,7 +76,7 @@ const LoginScreen = ({navigation, route}) => {
         })
         setMessage("")
       }
-
+console.log(user)
     useEffect(() =>{
         setMessage(route.params.message);
     }, [route.params.message])
@@ -121,13 +122,23 @@ const LoginScreen = ({navigation, route}) => {
                                         type="tel"
                                         countryCode='+91'
                                     />
-                                    <C_TextInput
+                                    {/* <C_TextInput
                                         label="Location"
                                         name="location"
                                         onChangeText={handleInputChange}
                                         value={user.data.location}
                                         placeholder="Location"
                                         containerStyles={styles.inputGrp}
+                                    /> */}
+                                    <DropDown
+                                        label="Location"
+                                        data={[
+                                            { label:"Delhi", value:"Delhi"},
+                                            { value:"Gurgaon", label:"Gurgaon"},
+                                            { value:"Noida", label:"Noida" },
+                                        ]}
+                                        handleChange={(value) => handleInputChange("location",value)}
+                                        value={user.data.location}
                                     />
                                     <Button
                                         title="Start Quiz"
