@@ -20,7 +20,7 @@ const AppStackNavigator = () =>{
             headerRight:() => <Button title="sign out" onPress={() => logout()}/>,
             headerLeft:() => null,
         }}
-        initialRouteName= {APP_TYPE.quizScreen}
+        initialRouteName= {APP_TYPE.artworkScreen}
       >
         <Stack.Screen name={ APP_TYPE.quizScreen } component={QuizScreen} options={{
           headerBackVisible:false,

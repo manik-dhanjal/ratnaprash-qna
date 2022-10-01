@@ -1,6 +1,7 @@
 import React from 'react'
-import { ImageBackground, StyleSheet } from 'react-native'
-import artworkBg from "../assets/images/artwork.png"
+import { Image, ImageBackground, StyleSheet, View } from 'react-native'
+import artworkBg from "../assets/images/artwork-bg.png"
+import artworkHead from "../assets/images/artwork-head.png"
 import Button from '../components/button.components'
 import { APP_TYPE } from '../constants/navigate.constants'
 
@@ -10,6 +11,9 @@ const ArtWorkScreen = ({navigation}) => {
   }
   return (
     <ImageBackground source={artworkBg} style={styles.imagebackground}>
+      <View style={styles.artworkHead}>
+        <Image source={artworkHead} style={styles.artworkImg}/>
+      </View>
         <Button
             title="Next"
             onPress={handleNextPress}
@@ -25,8 +29,16 @@ const styles = StyleSheet.create({
     imagebackground:{
         flex:1,
         resizeMode:'cover',
-        justifyContent:'flex-end',
+        justifyContent:'space-between',
         alignItems:'flex-end'
+    },
+    artworkHead:{
+      width:'100%',
+      paddingHorizontal:20
+    },
+    artworkImg:{
+      width:'100%',
+      resizeMode:'contain'
     },
     nextBtn:{
         marginHorizontal:15,
